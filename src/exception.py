@@ -1,4 +1,5 @@
 import traceback
+from src.logger import logging
 
 def error_message_detail(error):
     tb = traceback.TracebackException.from_exception(error)
@@ -18,7 +19,8 @@ class CustomException(Exception):
 
 try:
     # Code that might raise an exception
-    raise ValueError("An example error")
+   # raise ValueError("An example error")
+   pass
 except Exception as e:
     error_detail = error_message_detail(e)
     raise CustomException(error_detail)
