@@ -10,12 +10,12 @@ def error_message_detail(error):
     return error_message
 
 class CustomException(Exception):
-    def __init__(self, error_message):
-        super().__init__(error_message)
-        self.error_message = error_message
+    def __init__(self, message, error_detail):
+        super().__init__(message)
+        self.error_message = error_detail
 
     def __str__(self):
-        return self.error_message
+        return f"{self.message}: {self.error_detail}"
 
 try:
     # Code that might raise an exception
