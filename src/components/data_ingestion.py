@@ -16,6 +16,9 @@ from dataclasses import dataclass
 from src.components.data_transformation import DataTransformation
 from src.components.data_transformation import DataTransformationConfig
 
+from src.components.model_trainer import ModelTrainerConfig
+from src.components.model_trainer import ModelTrainer
+
 @dataclass
 class DataIngestionConfig:
     train_data_path: str=os.path.join('artifacts', "train.csv")
@@ -48,15 +51,28 @@ class DataIngestion:
             return(
                 self.ingestion_config.train_data_path,
                 self.ingestion_config.test_data_path
-
             )
         except Exception as e:
             logging.error(f"Error in data ingestion: {traceback.format_exc()}")
-            raise CustomException(e,sys)
+            raise CustomException(e, sys)
 
 if __name__=="__main__":
     obj = DataIngestion()
-    train_data,test_data=obj.initiate_data_ingestion()
+    train_data, test_data = obj.initiate_data_ingestion()
 
-    data_transformation=DataTransformation()
-    data_transformation.initiate_data_transformation(train_data,test_data)
+    data_transformation = DataTransformation()
+    #try:
+    train_arr, train_target, test_arr, test_target = data_transformation.initiate_data_transformation(train_data, test_data)
+    #except ValueError as ve:
+        #logging.error(f"Error in data transformation: {ve}")
+
+    modeltrainer = ModelTrainer()
+    #try:
+     #   print(modeltrainer.initiate_model_trainer(train_arr, test_arr))
+   # except NameError as ne:
+    #    logging.error(f"Error: {ne}. did you mean 'train_data' or 'test_data'?")
+   # except CustomException as ce:
+    #    logging.error(f"Error in model training: {ce}")
+    #model_trainer_config = ModelTrainerConfig()
+    #print(model_trainer_config.trained_model_file_path)
+    print(modeltrainer.initiate_model_trainer(train_arr, train_target, test_arr, test_target))
